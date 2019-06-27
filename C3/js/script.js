@@ -9,7 +9,9 @@ $(function(){
         {text:"網際網路",value:"internet"},
         {text:"應用系統整合",value:"system"},
         {text:"家庭保健",value:"home"},
-        {text:"語言",value:"language"}
+        {text:"語言",value:"language"},
+        {text:"行銷",value:"sell"},
+        {text:"管理",value:"management"}
     ]
     $("#book_category").kendoDropDownList({
         dataTextField: "text",
@@ -18,7 +20,10 @@ $(function(){
         index: 0,
         change: onChange
     });
-    $("#bought_datepicker").kendoDatePicker();
+    $("#bought_datepicker").kendoDatePicker({
+        value:new Date(),
+        format: "yyyy-MM-dd"
+    });
     $("#book_grid").kendoGrid({ 
         dataSource: {
             data: bookDataFromLocalStorage,
@@ -80,9 +85,26 @@ function deleteBook(option){
     {
         if(localData[i].BookId == dataItem.BookId)
         {
+            console.log(localData[i].BookCategory)
             localData.splice(i, 1);
             break;
         }
     }
     localStorage["bookData"] = JSON.stringify(localData);
 }
+
+$(".k-button").click(function(){
+    var grid = $("#book_grid").data("kendoGrid");
+    var localData = JSON.parse(localStorage["bookData"])
+    var new_book = {}
+    new_book.BookId = JSON.parse(localStorage["bookData"]).length +1
+    new_book.BookName = $("#book_name").val()
+    new_book.BookAuthor = $("#book_author").val()
+    new_book.BookCategory = $("#book_category").data("kendoDropDownList").text();
+    new_book.BookBoughtDate = $("#bought_datepicker").val()
+    // new_book.BookBoughtDate = kendo.toString(new Date($("#bought_datepicker").val()), "yyyy-MM-dd")
+    grid.dataSource.add(new_book)  
+    localData.splice(new_book.BookId, 0,new_book);
+    localStorage["bookData"] = JSON.stringify(localData);
+})
+    
