@@ -1,14 +1,15 @@
 
+// store book data
 var bookDataFromLocalStorage = [];
 
 $(function(){
     loadBookData();
     var data = [
-        {text:"資料庫",value:"1"},
-        {text:"網際網路",value:"2"},
-        {text:"應用系統整合",value:"3"},
-        {text:"家庭保健",value:"4"},
-        {text:"語言",value:"5"}
+        {text:"資料庫",value:"database"},
+        {text:"網際網路",value:"internet"},
+        {text:"應用系統整合",value:"system"},
+        {text:"家庭保健",value:"home"},
+        {text:"語言",value:"language"}
     ]
     $("#book_category").kendoDropDownList({
         dataTextField: "text",
@@ -18,7 +19,7 @@ $(function(){
         change: onChange
     });
     $("#bought_datepicker").kendoDatePicker();
-    $("#book_grid").kendoGrid({
+    $("#book_grid").kendoGrid({ 
         dataSource: {
             data: bookDataFromLocalStorage,
             schema: {
@@ -47,12 +48,12 @@ $(function(){
             { field: "BookCategory", title: "書籍種類", width: "10%" },
             { field: "BookAuthor", title: "作者", width: "15%" },
             { field: "BookBoughtDate", title: "購買日期", width: "15%" },
-            { command: { text: "刪除", click: deleteBook }, title: " ", width: "120px" }
+            { command: { text: "刪除", click: deleteBook }, title: "" , width: "120px" }
         ]
         
     });
 })
-
+// 載入book data
 function loadBookData(){
     bookDataFromLocalStorage = JSON.parse(localStorage.getItem("bookData"));
     if(bookDataFromLocalStorage == null){
@@ -63,28 +64,25 @@ function loadBookData(){
 
 function onChange(){
     var value = $("#book_category").val();
+    $(".book-image").attr("src", "image/"+value+".jpg");
 
-
-if(value == 1)
-{
-$(".book-image").attr("src", "image/database.jpg")
-}
-else if(value == 2)
-{
-$(".book-image").attr("src", "image/internet.jpg")
-}
-else if(value == 3)
-{
-$(".book-image").attr("src", "image/system.jpg")
-}
-else if(value == 4)
-{
-$(".book-image").attr("src", "image/home.jpg")
-}
-else if(value == 5)
-{
-$(".book-image").attr("src", "image/language.jpg")
-}
 }
   
-function deleteBook(){}
+function deleteBook(option){
+    // catch data 
+    var grid = $("#book_grid").data("kendoGrid");
+    var data = $(option.currentTarget).closest("tr")
+    var dataItem = grid.dataItem(data);
+    grid.dataSource.remove(dataItem); 
+    // delete data
+    var localData = JSON.parse(localStorage["bookData"])
+    for(var i = 0 ; i < localData.length ; i++)
+    {
+        if(localData[i].BookId == dataItem.BookId)
+        {
+            localData.splice(i, 1);
+            break;
+        }
+    }
+    localStorage["bookData"] = JSON.stringify(localData);
+}
