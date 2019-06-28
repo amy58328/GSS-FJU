@@ -57,6 +57,25 @@ $(function(){
         ]
         
     });
+    $(".book-grid-search").keydown(function(){
+        var search = $(".book-grid-search").val()
+        $("#book_grid").data("kendoGrid").dataSource.filter({
+            logic :"or",
+            filters:
+            [
+                {
+                    field:"BookName",
+                    operator:"contains",
+                    value: search
+                },
+                {
+                    field:"BookAuthor",
+                    operator:"contains",
+                    value: search
+                },
+            ]
+        })
+    })
 })
 // 載入book data
 function loadBookData(){
@@ -102,7 +121,7 @@ $(".k-button").click(function(){
     new_book.BookAuthor = $("#book_author").val()
     new_book.BookCategory = $("#book_category").data("kendoDropDownList").text();
     new_book.BookBoughtDate = $("#bought_datepicker").val()
-    // new_book.BookBoughtDate = kendo.toString(new Date($("#bought_datepicker").val()), "yyyy-MM-dd")
+    new_book.BookPublisher = $("#book_publish").val()
     grid.dataSource.add(new_book)  
     localData.splice(new_book.BookId, 0,new_book);
     localStorage["bookData"] = JSON.stringify(localData);
