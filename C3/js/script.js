@@ -53,10 +53,12 @@ $(function(){
             { field: "BookCategory", title: "書籍種類", width: "10%" },
             { field: "BookAuthor", title: "作者", width: "15%" },
             { field: "BookBoughtDate", title: "購買日期", width: "15%" },
+            { field: "BookPublisher", title: "出版社", width: "15%" },
             { command: { text: "刪除", click: deleteBook }, title: "" , width: "120px" }
         ]
         
     });
+    
     $(".book-grid-search").keydown(function(){
         var search = $(".book-grid-search").val()
         $("#book_grid").data("kendoGrid").dataSource.filter({
@@ -72,7 +74,7 @@ $(function(){
                     field:"BookAuthor",
                     operator:"contains",
                     value: search
-                },
+                }
             ]
         })
     })
@@ -95,7 +97,7 @@ function onChange(){
 function deleteBook(option){
     // catch data 
     var grid = $("#book_grid").data("kendoGrid");
-    var data = $(option.currentTarget).closest("tr")
+    var data = $(option.currentTarget).closest("tr");
     var dataItem = grid.dataItem(data);
     grid.dataSource.remove(dataItem); 
     // delete data
@@ -104,7 +106,6 @@ function deleteBook(option){
     {
         if(localData[i].BookId == dataItem.BookId)
         {
-            console.log(localData[i].BookCategory)
             localData.splice(i, 1);
             break;
         }
@@ -112,18 +113,74 @@ function deleteBook(option){
     localStorage["bookData"] = JSON.stringify(localData);
 }
 
-$(".k-button").click(function(){
-    var grid = $("#book_grid").data("kendoGrid");
-    var localData = JSON.parse(localStorage["bookData"])
-    var new_book = {}
-    new_book.BookId = JSON.parse(localStorage["bookData"]).length +1
-    new_book.BookName = $("#book_name").val()
-    new_book.BookAuthor = $("#book_author").val()
-    new_book.BookCategory = $("#book_category").data("kendoDropDownList").text();
-    new_book.BookBoughtDate = $("#bought_datepicker").val()
-    new_book.BookPublisher = $("#book_publish").val()
-    grid.dataSource.add(new_book)  
-    localData.splice(new_book.BookId, 0,new_book);
-    localStorage["bookData"] = JSON.stringify(localData);
+var validator = $("#creat").kendoValidator().data("kendoValidator"),
+    status = $(".status");
+    
+$("form").click(function(event) {
+    event.preventDefault();
+    $("#close_window").click(function(){
+        if (validator.validate()) {
+            status.text("Oops! There is invalid data in the form.")
+            .removeClass("valid")
+            .addClass("invalid");
+        }
+            
+    });
+});
+
+$("#open_window").click(function(){
+    $("#book_name").val("")
+    $("#book_author").val("")
+    $("#book_publish").val("")
+});
+
+$(document).ready(function() {
+    var myWindow = $("#window"),
+    undo = $("#open_window");
+    undo.click(function() {
+        myWindow.data("kendoWindow").open().center();
+    });
+    function onClose() {
+        undo.fadeIn();
+    }
+
+    $("#close_window").click(function(){
+        if (validator.validate()) 
+            myWindow.data("kendoWindow").close();
+            
+    })
+
+    myWindow.kendoWindow({
+        width: "600px",
+        title: "insert book",
+        visible: false,
+        actions: [
+            "Pin",
+            "Minimize",
+            "Maximize",
+            "Close"
+        ],
+        close: onClose
+    });
+});
+
+$("#close_window").click(function(){
+    
+    if (validator.validate()) 
+    {
+        var grid = $("#book_grid").data("kendoGrid");
+        var localData = JSON.parse(localStorage["bookData"])
+        var new_book = {}
+        new_book.BookId = JSON.parse(localStorage["bookData"]).length +1
+        new_book.BookName = $("#book_name").val()
+        new_book.BookAuthor = $("#book_author").val()
+        new_book.BookCategory = $("#book_category").data("kendoDropDownList").text();
+        new_book.BookBoughtDate = $("#bought_datepicker").val()
+        new_book.BookPublisher = $("#book_publish").val()
+        grid.dataSource.add(new_book)  
+        localData.splice(new_book.BookId, 0,new_book);
+        localStorage["bookData"] = JSON.stringify(localData);
+    }
+       
 })
     
