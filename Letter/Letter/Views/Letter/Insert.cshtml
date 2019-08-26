@@ -1,0 +1,43 @@
+﻿@*(1)多提醒輸入的單字的英文與中文*@
+@{
+    ViewBag.Title = "Insert";
+}
+
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+    <h1>新增</h1>
+    <input type="button" id="btn_insert" value="新增" />
+    <input type="button" id="btn_goIndex" value="回到主頁" />
+</body>
+</html>
+
+<script>
+    $('#btn_insert').click(function () {
+        if (confirm("確定要新增嗎?"))
+        {
+            alert("新增成功");
+            //(1)
+        }
+        else
+        {
+            alert("請重新輸入");
+        }
+        window.location.href = "/Letter/Insert";
+
+    });
+
+    $('#btn_goIndex').click(function () {
+        if (confirm("確定要回到主頁嗎?")) {
+            window.location.href = "/Letter/Index";
+        }
+        else {
+            alert("繼續輸入");
+        }
+
+    });
+
+</script>
