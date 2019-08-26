@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Grade";
+}
+
+
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+    <h1>成績</h1>
+    <input type="button" id="btn_goIndex" value="回到主頁" />
+</body>
+</html>
+
+<script>
+
+    $('#btn_goIndex').click(function () {
+        if (confirm("確定要回到主頁嗎?")) {
+            window.location.href = "/word/Index";
+        }
+
+    });
+
+</script>
+
