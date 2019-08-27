@@ -1,0 +1,178 @@
+﻿@model BookManagement.Models.Books
+@{
+    ViewBag.Title = "InsertIndex";
+}
+
+<h2>新增書籍</h2>
+
+
+@using (Html.BeginForm("InsertIndex", "BookAjax", FormMethod.Post, new { id = "InsertIndexForm" }))
+{
+    <div class="form-horizontal" id="CreatBookForm">
+
+        <div class="form-group ">
+            <div>
+                <b class="control-label col-md-2  required " >書名</b>
+                <table>
+                    <tr>
+                        <td>
+                            <input name="BookName" class="form-control" type="text" id="Name" Required validationMessage="書名必填" />
+                        </td>
+                    </tr>
+                </table>   
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <b class="control-label col-md-2 required  ">作者</b>
+                <table>
+                    <tr>
+                        <td>
+                            <input name="BookAuthor" class="form-control" type="text" id="Author" Required validationMessage="作者必填" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <b class="control-label col-md-2  required ">出版社</b>
+                <table>
+                    <tr>
+                        <td>
+                            <input name="BookPublisher" class="form-control" type="text" id="Publisher" Required validationMessage="出版社必填" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <b class="control-label col-md-2  required ">內容簡介</b>
+                <table>
+                    <tr>
+                        <td>
+                            <textarea name="BookNote" class="form-control" id="Note" Required validationMessage="內容簡介必填"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <b class="control-label col-md-2 required  ">購買日期</b>  
+                <table>
+                    <tr>
+                        <td>
+                            <input name="BookBoughtDate" class="form-control" id="BoughtDate" Required validationMessage="購買日期必填" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!--書籍類別-->
+        <div class="form-group">
+            <div>
+                <b class="control-label col-md-2 required ">書籍類別</b>
+                <table>
+                    <tr>
+                        <td>
+                            <select name="BookClassName" class="form-control" id="BookClassName_DropDownList" Required validationMessage="書籍類別必填"></select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <br/>
+        <br/>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btn_insert" type="button" value="新增" class="btn" style="background-color: #99b2db; color:#194284" />
+            </div>
+        </div>
+
+    </div>
+}
+<script type="text/javascript">
+    var validator = $("#CreatBookForm").kendoValidator().data("kendoValidator");
+    $(document).ready(function () {
+        $("#BoughtDate").kendoDatePicker({
+            value: new Date(),
+            format: "yyyy-MM-dd"
+        });
+        //按下新增後
+        $("#btn_insert").click(function () {
+            if (validator.validate()) {
+                if (confirm('確定是否新增這筆紀錄?')) {
+                    if ($("#Note").val().length > 1000) {
+                        alert("這是簡介，不是內容，字數不能超過1000");
+                        return;
+                    }
+                    var data = {
+                        "BookName": $("#Name").val(),
+                        "BookAuthor": $("#Author").val(),
+                        "BookPublisher": $("#Publisher").val(),
+                        "BookNote": $("#Note").val(),
+                        "BookBoughtDate": $("#BoughtDate").val(),
+                        "BookClassId": $("#BookClassName_DropDownList").data("kendoDropDownList").value()
+                    };
+                    console.log(data);
+                    $.ajax({
+                        url: "/BookAjax/InsertIndex",
+                        dataType: "json",
+                        type: "post",
+                        data: data,
+                        success: function (response) {
+                            alert("新增成功");
+                            location.href = "/BookAjax/InsertIndex";
+                        },
+                        error: function (error) {
+                            alert("有資料沒有填到喔，回去檢查一下喔");
+                        }
+
+                    });
+                }
+            }
+
+        });
+
+        //類別下拉選單
+        $("#BookClassName_DropDownList").kendoDropDownList({
+            optionLabel: "請選擇",// 給予初始值
+            dataTextField: "Text", // 區分 BookClassName 跟 BookClassId
+            dataValueField: "Value",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/BookAjax/GetBookClassName",
+                        dataType: "json",
+                        type: "post"
+                    }
+                }
+            }
+        });
+        //回到主畫面
+        $("#return_index").click(function () {
+            location.href = "/BookAjax/IndexAjax";
+        });
+    });
+
+
+</script>
+<style>
+    /*加星星*/
+    .required label:before {
+        content: "*";
+        color: red;
+    }
+</style>
+
+<div>
+    <input type="button" id="return_index" value="返回"  class="btn" style="background-color: #99b2db; color:#194284" />
+</div>

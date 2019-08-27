@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "Update";
+}
+
+<h2>修改</h2>
+
+@using (Html.BeginForm("Update", "BookAjax", FormMethod.Post, new { id = "UpdateForm" }))
+{
+<div class="form-horizontal" id="CreatBookForm">
+
+    <div class="form-group ">
+        <div>
+            <b class="control-label col-md-2  required ">書名</b>
+            <table>
+                <tr>
+                    <td>
+                        <input name="BookName" class="form-control" type="text" id="Name" Required validationMessage="書名必填" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <b class="control-label col-md-2 required  ">作者</b>
+            <table>
+                <tr>
+                    <td>
+                        <input name="BookAuthor" class="form-control" type="text" id="Author" Required validationMessage="作者必填" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <b class="control-label col-md-2  required ">出版社</b>
+            <table>
+                <tr>
+                    <td>
+                        <input name="BookPublisher" class="form-control" type="text" id="Publisher" Required validationMessage="出版社必填" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <b class="control-label col-md-2  required ">內容簡介</b>
+            <table>
+                <tr>
+                    <td>
+                        <textarea name="BookNote" class="form-control" id="Note" Required validationMessage="內容簡介必填"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <b class="control-label col-md-2 required  ">購買日期</b>
+            <table>
+                <tr>
+                    <td>
+                        <input name="BookBoughtDate" class="form-control" id="BoughtDate" Required validationMessage="購買日期必填" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--書籍類別-->
+    <div class="form-group">
+        <div>
+            <b class="control-label col-md-2 required ">書籍類別</b>
+            <table>
+                <tr>
+                    <td>
+                        <select name="BookClassName" class="form-control" id="BookClassName_DropDownList" Required validationMessage="書籍類別必填"></select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <b class="control-label col-md-2 required ">借閱狀態</b>
+            <table>
+                <tr>
+                    <td>
+                        <select name="BookClassName" class="form-control" id="GetCodeName_DropDownList" Required validationMessage="借閱狀態必填"></select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <b class="control-label col-md-2  ">借閱人</b>
+            <table>
+                <tr>
+                    <td>
+                        <select name="BookClassName" class="form-control" id="KeeperName_DropDownList" ></select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="btn_update" type="button" value="修改" class="btn" style="background-color: #99b2db; color:#194284" />
+        </div>
+    </div>
+
+</div>
+}
+
+<script>
+    $(document).ready(function () {
+        //Class name
+        $("#BookClassName_DropDownList").kendoDropDownList({
+            optionLabel: "請選擇",// 給予初始值
+            dataTextField: "Text", // 區分 BookClassName 跟 BookClassId
+            dataValueField: "Value",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/BookAjax/GetBookClassName",
+                        dataType: "json",
+                        type: "post"
+                    }
+                }
+            }
+        });
+        //購買日期
+        $("#BoughtDate").kendoDatePicker({
+            value: new Date(),
+            format: "yyyy-MM-dd"
+        });
+        //回到主畫面
+        $("#return_index").click(function () {
+            location.href = "/BookAjax/IndexAjax";
+        });
+        //借閱狀態
+        $("#GetCodeName_DropDownList").kendoDropDownList({
+            optionLabel: "請選擇",// 給予初始值
+            dataTextField: "Text", // 區分 KeeperName 跟 KeeperId
+            dataValueField: "Value",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/BookAjax/GetCodeName",
+                        dataType: "json",
+                        type: "post"
+                    }
+                }
+            }
+        });
+        //借閱人
+        $("#KeeperName_DropDownList").kendoDropDownList({
+            optionLabel: "請選擇",// 給予初始值
+            dataTextField: "Text", // 區分 KeeperName 跟 KeeperId
+            dataValueField: "Value",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/BookAjax/GetUserName",
+                        dataType: "json",
+                        type: "post"
+                    }
+                }
+            }
+        });
+    });
+
+</script>
+<div>
+    <input type="button" id="return_index" value="返回" class="btn" style="background-color: #99b2db; color:#194284" />
+</div>

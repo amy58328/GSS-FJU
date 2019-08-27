@@ -6,34 +6,16 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    
-    @*<style>
-            body {
-                background-color: black;
-                color: white;
-            }
-
-            #btn_goInsert {
-                margin-left: 48%;
-            }
-
-            .btn {
-                width: 100px;
-                height: 50px;
-                background-color: #00FA9A;
-            }
-
-                .btn:hover {
-                    background-color: #00FFFF;
-                }
-        </style>*@
 </head>
 
 <body>
-    <h1>主畫面</h1>
-    <input type="button" id="btn_goInsert"  value="新增測資" />
-    <input type="button" id="btn_goTest"  value="開始測驗" />
-
+    <img id="point_left" src="~/img/point_left.png" />
+    <img class="change_img" src="~/img/G.E.M._1.jpg" />
+    <img id="point_right" src="~/img/point_right.png" />
+    <br />
+    <br />
+    <input type="button" id="btn_goInsert" class="middle btn" value="新增測資" />
+    <input type="button" id="btn_goTest" class="btn" value="開始測驗" />
 </body>
 </html>
 
@@ -44,6 +26,27 @@
 
     $('#btn_goTest').click(function () {
         window.location.href = "/Letter/Test";
+    });
+
+    var point = 1;
+    $('#point_left').click(function () {
+        if (point <= 1) {
+            point = 6;
+        }
+        else {
+            point -= 1;
+        }
+        $(".change_img").attr("src", "../img/G.E.M._" + point + ".jpg");
+    });
+
+    $('#point_right').click(function () {
+        if (point >= 6) {
+            point = 1;
+        }
+        else {
+            point += 1;
+        }
+        $(".change_img").attr("src", "../img/G.E.M._" + point + ".jpg");
     });
 
 </script>

@@ -27,5 +27,10 @@ namespace Letter.Controllers
         {
             return View();
         }
+
+        public ActionResult Answer()
+        {
+            return View();
+        }
     }
 }

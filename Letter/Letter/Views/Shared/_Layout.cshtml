@@ -1,14 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
 
-    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+
+    <title>我不想面對的東西</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -19,13 +20,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("應用程式名稱", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="@Url.Action("Index","Letter")" >
+                    <img id="home_img" src="@Url.Content("~/img/home_touch.png")" height="42px" width="42px" />
+                </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                    <li>@Html.ActionLink("關於", "About", "Home")</li>
-                    <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("我的底逼小世界", "Answer", "Letter")</li>
                 </ul>
             </div>
         </div>
@@ -34,7 +35,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+            <p>我絕對不會說我是為了排解英文的痛苦 才寫這個程式的</p>
         </footer>
     </div>
 
@@ -43,3 +44,13 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    $("#home_img").mousemove(function () {
+        $("#home_img").attr("src", "@Url.Content("~/img/home.png")");
+    });
+     $("#home_img").mouseout(function () {
+        $("#home_img").attr("src", "@Url.Content("~/img/home_touch.png")");
+    });
+
+</script>
