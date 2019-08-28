@@ -1,0 +1,79 @@
+﻿@*jquery換html 的文字*@
+@* 1 src換取方式 *@
+@{
+    ViewBag.Title = "Index";
+}
+
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+    <img id="point_left" src="~/img/point_left.png" />
+    <img class="change_img" src="~/img/G.E.M._1.jpg" />@*1*@
+    <img id="point_right" src="~/img/point_right.png" />
+    <span id="text_picture_number" class="badge badge-pill badge-light">(1/11)</span>
+    <br />
+    <br />
+    <input type="button" id="btn_goInsert" class="middle btn" value="新增測資" />
+    <input type="button" id="btn_goTest" class="btn" value="開始測驗" />
+</body>
+</html>
+
+<script>
+    //to insert button 
+    $('#btn_goInsert').click(function () {
+        window.location.href = "/Letter/Insert";
+    });
+    //to insert button 
+    $('#btn_goTest').click(function () {
+        window.location.href = "/Letter/Test";
+    });
+
+    // picture change left
+    var point = 1;
+    $('#point_left').click(function () {
+        if (point <= 1) {
+            point = 11;
+        }
+        else {
+            point -= 1;
+        }
+        $(".change_img").attr("src", "../img/G.E.M._" + point + ".jpg");
+        $('#text_picture_number').text('(' + point + '/11)');
+    });
+
+    //left button change color
+    $('#point_left').mousemove(function () {
+        $("#point_left").attr("src", "../img/point_left_ontouch.png");
+    });
+
+    //left button change color
+    $('#point_left').mouseout(function () {
+        $("#point_left").attr("src", "../img/point_left.png");
+    });
+
+    //picture change right
+    $('#point_right').click(function () {
+        if (point >= 11) {
+            point = 1;
+        }
+        else {
+            point += 1;
+        }
+        $(".change_img").attr("src", "../img/G.E.M._" + point + ".jpg");
+        $('#text_picture_number').text('(' + point + '/11)');
+    });
+
+    // right button change color
+    $('#point_right').mousemove(function () {
+        $("#point_right").attr("src", "../img/point_right_ontouch.png");
+    });
+
+    // right button change color
+    $('#point_right').mouseout(function () {
+        $("#point_right").attr("src", "../img/point_right.png");
+    });
+
+</script>

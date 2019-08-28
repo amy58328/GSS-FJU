@@ -1,0 +1,76 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
+
+body {
+	background-color: black;
+	color: white;
+}
+
+.btn {
+	width: 100px;
+	height: 50px;
+	background-color: #00FA9A;
+}
+
+.btn:hover {
+	background-color: #00FFFF;
+}
+
+.middle{
+	margin-left: 38%;
+}
+
+.change_img{
+	width: 500px;
+	margin-left :28%;
+}
+
+#point_right{
+	width: 100px;
+	position: absolute;
+	top: 380px;
+	right:  250px; 
+
+}
+
+#point_left{
+	width: 100px;
+	position: absolute;
+	top: 380px;
+	left: 250px; 
+}
+
+#text_picture_number{
+	position: absolute;
+	bottom:300px;
+	right: 600px;
+	opacity:0.4;
+	font-size: 30px;
+
+}
+
+nobr{
+	font-size: 30px;
+	font-family:Microsoft JhengHei;
+}
+
+.font_size{
+	font-size: 25px;
+}
+
+.text_size{
+	width: 3000px;
+}
+.table_style{
+	border: 3px  #82FFFF solid;
+	text-align: center;
+
+}
+
+.input_style{
+	background-color: black;
+	border:2px blue none;
+	color:white;
+	text-align: center;
+
+}
